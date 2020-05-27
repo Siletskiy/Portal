@@ -69,30 +69,34 @@ public class MainActivity extends AppCompatActivity {
         window=getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
+        /// AppBarLayoutParams
         params= (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
         scrollFlags=params.getScrollFlags();
 
         drawer = findViewById(id.drawer_layout);
-        navigationView = findViewById(id.nav_view);
+        //navigationView = findViewById(id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(id.nav_my_mall,
-                id.nav_my_orders, id.nav_my_rewards, id.nav_my_cart,
-                id.nav_my_wishlist, id.nav_my_account, id.nav_sign_out)
-                .setDrawerLayout(drawer)
-                .build();
-        NavController navController = Navigation.findNavController(this, id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
 
-        navigationView.getMenu().getItem(0).setChecked(true);
+//        mAppBarConfiguration = new AppBarConfiguration.Builder(id.nav_my_mall,
+//                id.nav_my_orders, id.nav_my_rewards, id.nav_my_cart,
+//                id.nav_my_wishlist, id.nav_my_account, id.nav_sign_out)
+//                .setDrawerLayout(drawer)
+//                .build();
+
+        //NavigationUI - a set of methods that easily integrate the navigation component
+        NavController navController = Navigation.findNavController(this, id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController);
+        //NavigationUI.setupWithNavController(navigationView, navController);
+
+       // navigationView.getMenu().getItem(0).setChecked(true);
 
         frameLayout=findViewById(id.main_frame_layout);
-
-        fullname=navigationView.getHeaderView(0).findViewById(id.main_name);
-        email=navigationView.getHeaderView(0).findViewById(id.main_email);
-        addProfileIcon=navigationView.getHeaderView(0).findViewById(id.add_profile_image_icon);
-        profileView=navigationView.getHeaderView(0).findViewById(id.main_profile_pic);
+//
+//        fullname=navigationView.getHeaderView(0).findViewById(id.main_name);
+//        email=navigationView.getHeaderView(0).findViewById(id.main_email);
+//        addProfileIcon=navigationView.getHeaderView(0).findViewById(id.add_profile_image_icon);
+//        profileView=navigationView.getHeaderView(0).findViewById(id.main_profile_pic);
 
 //        if(showCart){
 //            mainActivity=this;
@@ -241,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
         }*/
         actionbarLogo.setVisibility(View.VISIBLE);
 //        setFragment(new MyMallFragment(),MyMallFragment);
-        navigationView.getMenu().getItem(0).setChecked(true);
+//        navigationView.getMenu().getItem(0).setChecked(true);
         invalidateOptionsMenu();
     }
 

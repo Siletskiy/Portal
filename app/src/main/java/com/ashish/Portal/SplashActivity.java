@@ -18,7 +18,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         //SystemClock.sleep(3000);
 
-        firebaseAuth=FirebaseAuth.getInstance();
+       // firebaseAuth=FirebaseAuth.getInstance();
 
     }
 
