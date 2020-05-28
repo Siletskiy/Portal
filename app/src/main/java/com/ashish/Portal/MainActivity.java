@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         if(currentUser!=null) {  ///my code
-            DBquerries.checkNotifications(true, null);
+           // DBquerries.checkNotifications(true, null);
         }
 
     }

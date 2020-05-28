@@ -284,7 +284,7 @@ public class MyMallAdapter extends RecyclerView.Adapter {
                 horizontalviewAllBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ViewAllActivity.wishlistModelList=viewAllProductList;
+                        //ViewAllActivity.wishlistModelList=viewAllProductList;
                         itemView.getContext().startActivity(new Intent(itemView.getContext(),ViewAllActivity.class)
                                 .putExtra("layout",0)
                                 .putExtra("title",title)

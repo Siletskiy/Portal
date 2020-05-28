@@ -44,7 +44,7 @@ import java.util.Map;
 
 
 import static com.ashish.Portal.MainActivity.showCart;
-import static com.ashish.Portal.RegisterActivity.setsignUpFragment;
+//import static com.ashish.Portal.RegisterActivity.setsignUpFragment;
 
 public class ProductDetailsActivity extends AppCompatActivity {
 
@@ -259,47 +259,47 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                                 avgRating.setText(documentSnapshot.get("average_rating").toString());
                                                 productDetailsViewPager.setAdapter(new ProductdetaisAdapter(getSupportFragmentManager(), productDetailsTablayout.getTabCount(), productDescription, productOtherDetails, productSpecificationModelList));
 
-                                                if (currentUser != null) {
-                                                    if (DBquerries.myRating.size() == 0) {
-                                                        DBquerries.loadRatingList(ProductDetailsActivity.this);
-                                                    }
+//                                                if (currentUser != null) {
+//                                                    if (DBquerries.myRating.size() == 0) {
+//                                                        DBquerries.loadRatingList(ProductDetailsActivity.this);
+//                                                    }
+//
+//                                                    if (DBquerries.wishlist.size() == 0) {
+//                                                        DBquerries.loadWishlist(ProductDetailsActivity.this, loadingDialog, false);
+//                                                    }
+//                                                    if (DBquerries.cartList.size() == 0) {
+//                                                        DBquerries.loadCartList(ProductDetailsActivity.this, loadingDialog, false,badgeCount,new TextView(ProductDetailsActivity.this));
+//                                                    }
+//                                                    if (DBquerries.rewardModelList.size() == 0) {
+//                                                        DBquerries.loadRewards(ProductDetailsActivity.this, loadingDialog,false);
+//                                                    }
+//                                                    if (DBquerries.cartList.size() != 0 && DBquerries.wishlist.size() != 0  &&  DBquerries.rewardModelList.size() != 0){
+//                                                        loadingDialog.dismiss();
+//                                                    }
+//
+//                                                } else {
+//                                                    loadingDialog.dismiss();
+//                                                }
 
-                                                    if (DBquerries.wishlist.size() == 0) {
-                                                        DBquerries.loadWishlist(ProductDetailsActivity.this, loadingDialog, false);
-                                                    }
-                                                    if (DBquerries.cartList.size() == 0) {
-                                                        DBquerries.loadCartList(ProductDetailsActivity.this, loadingDialog, false,badgeCount,new TextView(ProductDetailsActivity.this));
-                                                    }
-                                                    if (DBquerries.rewardModelList.size() == 0) {
-                                                        DBquerries.loadRewards(ProductDetailsActivity.this, loadingDialog,false);
-                                                    }
-                                                    if (DBquerries.cartList.size() != 0 && DBquerries.wishlist.size() != 0  &&  DBquerries.rewardModelList.size() != 0){
-                                                        loadingDialog.dismiss();
-                                                    }
-
-                                                } else {
-                                                    loadingDialog.dismiss();
-                                                }
-
-                                                if (DBquerries.myRatedIds.contains(productID)) {
-                                                    int index = DBquerries.myRatedIds.indexOf(productID);
-                                                    initialRating = Integer.parseInt(String.valueOf(DBquerries.myRating.get(index))) - 1;
-                                                    setRating(initialRating);
-                                                }
-
-                                                if (DBquerries.wishlist.contains(productID)) {
-                                                    ALREADY_ADDED_TO_WISHLIST = true;
-                                                    addToWishlistBtn.setSupportImageTintList(getResources().getColorStateList(R.color.colorPrimary));
-
-                                                } else {
-                                                    addToWishlistBtn.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
-                                                    ALREADY_ADDED_TO_WISHLIST = false;
-                                                }
-                                                if (DBquerries.cartList.contains(productID)) {
-                                                    ALREADY_ADDED_TO_CART = true;
-                                                } else {
-                                                    ALREADY_ADDED_TO_CART = false;
-                                                }
+//                                                if (DBquerries.myRatedIds.contains(productID)) {
+//                                                    int index = DBquerries.myRatedIds.indexOf(productID);
+//                                                    initialRating = Integer.parseInt(String.valueOf(DBquerries.myRating.get(index))) - 1;
+//                                                    setRating(initialRating);
+//                                                }
+//
+//                                                if (DBquerries.wishlist.contains(productID)) {
+//                                                    ALREADY_ADDED_TO_WISHLIST = true;
+//                                                    addToWishlistBtn.setSupportImageTintList(getResources().getColorStateList(R.color.colorPrimary));
+//
+//                                                } else {
+//                                                    addToWishlistBtn.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
+//                                                    ALREADY_ADDED_TO_WISHLIST = false;
+//                                                }
+//                                                if (DBquerries.cartList.contains(productID)) {
+//                                                    ALREADY_ADDED_TO_CART = true;
+//                                                } else {
+//                                                    ALREADY_ADDED_TO_CART = false;
+//                                                }
 
 
                                                 if(task.getResult().getDocuments().size()< (long)documentSnapshot.get("stock_quantity")){
@@ -386,75 +386,76 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             String err = task.getException().getMessage();
                             Toast.makeText(ProductDetailsActivity.this, err, Toast.LENGTH_SHORT).show();
                         }
+                        loadingDialog.dismiss();
                     }
                 });
 
         viewpagerIndicator.setupWithViewPager(productImagesViewpager, true);
 
-        addToWishlistBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (currentUser == null) {
-                    signInDialog.show();
-                }
-                else {
-                    if (!running_wishlist_querry) {
-                        running_wishlist_querry = true;
-                        if (ALREADY_ADDED_TO_WISHLIST) {
-                            int index = DBquerries.wishlist.indexOf(productID);
-                            DBquerries.removeFromWishlist(index, ProductDetailsActivity.this);
-                            ALREADY_ADDED_TO_WISHLIST = false;
-                            addToWishlistBtn.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
-                        } else {
-                            addToWishlistBtn.setSupportImageTintList(getResources().getColorStateList(R.color.colorPrimary));
-
-                            Map<String, Object> addProduct = new HashMap<>();
-                            addProduct.put("product_ID_" + String.valueOf(DBquerries.wishlist.size()), productID);
-                            addProduct.put("list_size", (long) (DBquerries.wishlist.size() + 1));
-
-                            firebaseFirestore.collection("USERS").document(currentUser.getUid())
-                                    .collection("USER_DATA").document("MY_WISHLIST")
-                                    .update(addProduct)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-
-                                                if (DBquerries.wishlist.size() == 0) {
-                                                    DBquerries.wishlistModelList.add(new WishlistModel(
-                                                            productID
-                                                            , documentSnapshot.get("product_image_1").toString()
-                                                            , documentSnapshot.get("product_title").toString()
-                                                            , (long) documentSnapshot.get("free_coupans")
-                                                            , documentSnapshot.get("average_rating").toString()
-                                                            , (long) documentSnapshot.get("total_ratings")
-                                                            , documentSnapshot.get("product_price").toString()
-                                                            , documentSnapshot.get("cutted_price").toString()
-                                                            , (boolean) documentSnapshot.get("COD")
-                                                            ,inStock
-                                                    ));
-                                                }
-
-                                                ALREADY_ADDED_TO_WISHLIST = true;
-                                                addToWishlistBtn.setSupportImageTintList(getResources().getColorStateList(R.color.colorPrimary));
-                                                DBquerries.wishlist.add(productID);
-                                                Toast.makeText(ProductDetailsActivity.this, "Added to Wishlist Successfully!", Toast.LENGTH_SHORT).show();
-
-                                            } else {
-                                                addToWishlistBtn.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
-                                                String err = task.getException().getMessage();
-                                                Toast.makeText(ProductDetailsActivity.this, err, Toast.LENGTH_SHORT).show();
-                                            }
-                                            running_wishlist_querry = false;
-                                        }
-                                    });
-
-
-                        }
-                    }
-                }
-            }
-        });
+//        addToWishlistBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (currentUser == null) {
+//                    signInDialog.show();
+//                }
+//                else {
+//                    if (!running_wishlist_querry) {
+//                        running_wishlist_querry = true;
+//                        if (ALREADY_ADDED_TO_WISHLIST) {
+//                            int index = DBquerries.wishlist.indexOf(productID);
+//                            DBquerries.removeFromWishlist(index, ProductDetailsActivity.this);
+//                            ALREADY_ADDED_TO_WISHLIST = false;
+//                            addToWishlistBtn.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
+//                        } else {
+//                            addToWishlistBtn.setSupportImageTintList(getResources().getColorStateList(R.color.colorPrimary));
+//
+//                            Map<String, Object> addProduct = new HashMap<>();
+//                            addProduct.put("product_ID_" + String.valueOf(DBquerries.wishlist.size()), productID);
+//                            addProduct.put("list_size", (long) (DBquerries.wishlist.size() + 1));
+//
+//                            firebaseFirestore.collection("USERS").document(currentUser.getUid())
+//                                    .collection("USER_DATA").document("MY_WISHLIST")
+//                                    .update(addProduct)
+//                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                        @Override
+//                                        public void onComplete(@NonNull Task<Void> task) {
+//                                            if (task.isSuccessful()) {
+//
+//                                                if (DBquerries.wishlist.size() == 0) {
+//                                                    DBquerries.wishlistModelList.add(new WishlistModel(
+//                                                            productID
+//                                                            , documentSnapshot.get("product_image_1").toString()
+//                                                            , documentSnapshot.get("product_title").toString()
+//                                                            , (long) documentSnapshot.get("free_coupans")
+//                                                            , documentSnapshot.get("average_rating").toString()
+//                                                            , (long) documentSnapshot.get("total_ratings")
+//                                                            , documentSnapshot.get("product_price").toString()
+//                                                            , documentSnapshot.get("cutted_price").toString()
+//                                                            , (boolean) documentSnapshot.get("COD")
+//                                                            ,inStock
+//                                                    ));
+//                                                }
+//
+//                                                ALREADY_ADDED_TO_WISHLIST = true;
+//                                                addToWishlistBtn.setSupportImageTintList(getResources().getColorStateList(R.color.colorPrimary));
+//                                                DBquerries.wishlist.add(productID);
+//                                                Toast.makeText(ProductDetailsActivity.this, "Added to Wishlist Successfully!", Toast.LENGTH_SHORT).show();
+//
+//                                            } else {
+//                                                addToWishlistBtn.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
+//                                                String err = task.getException().getMessage();
+//                                                Toast.makeText(ProductDetailsActivity.this, err, Toast.LENGTH_SHORT).show();
+//                                            }
+//                                            running_wishlist_querry = false;
+//                                        }
+//                                    });
+//
+//
+//                        }
+//                    }
+//                }
+//            }
+//        });
 
 
         productDetailsViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(productDetailsTablayout));
@@ -479,159 +480,159 @@ public class ProductDetailsActivity extends AppCompatActivity {
 //////rating layout
 
         rateNowContainer = findViewById(R.id.rate_now_container);
-
-        for (int x = 0; x < rateNowContainer.getChildCount(); x++) {
-            final int starPosition = x;
-            rateNowContainer.getChildAt(x).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (currentUser == null) {
-                        signInDialog.show();
-                    }
-                    else {
-                        if (starPosition != initialRating) {
-                            if (!running_rating_querry) {
-                                running_rating_querry = true;
-
-                                setRating(starPosition);
-                                Map<String, Object> updateRating = new HashMap<>();
-
-                                if (DBquerries.myRatedIds.contains(productID)) {
-                                    TextView oldRating = (TextView) ratingsNoContainer.getChildAt(5 - initialRating - 1);
-                                    TextView finalRating = (TextView) ratingsNoContainer.getChildAt(5 - starPosition - 1);
-
-                                    updateRating.put(initialRating + 1 + "_star", Long.parseLong(oldRating.getText().toString()) - 1);
-                                    updateRating.put(starPosition + 1 + "_star", Long.parseLong(finalRating.getText().toString()) + 1);
-                                    updateRating.put("average_rating", calculateAverageRating((long) starPosition - initialRating, true));
-                                } else {
-                                    updateRating.put(starPosition + 1 + "_star", (long) documentSnapshot.get(starPosition + 1 + "_star") + 1);
-                                    updateRating.put("average_rating", calculateAverageRating((long) starPosition + 1, false));
-                                    updateRating.put("total_ratings", (long) documentSnapshot.get("total_ratings") + 1);
-
-                                }
-
-                                firebaseFirestore.collection("PRODUCTS").document(productID)
-                                        .update(updateRating)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    Map<String, Object> myRating = new HashMap<>();
-
-                                                    if (DBquerries.myRatedIds.contains(productID)) {
-                                                        myRating.put("rating_" + DBquerries.myRatedIds.indexOf(productID), (long) starPosition + 1);
-                                                    } else {
-                                                        myRating.put("product_ID_" + DBquerries.myRatedIds.size(), productID);
-                                                        myRating.put("rating_" + DBquerries.myRatedIds.size(), (long) starPosition + 1);
-                                                        myRating.put("list_size", (long) DBquerries.myRatedIds.size() + 1);
-                                                    }
-
-                                                    firebaseFirestore.collection("USERS").document(currentUser.getUid()).collection("USER_DATA").document("MY_RATINGS")
-                                                            .update(myRating)
-                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                    if (task.isSuccessful()) {
-                                                                        if (DBquerries.myRatedIds.contains(productID)) {
-                                                                            DBquerries.myRating.set(DBquerries.myRatedIds.indexOf(productID), (long) starPosition + 1);
-
-                                                                            TextView oldRating = (TextView) ratingsNoContainer.getChildAt(5 - initialRating - 1);
-                                                                            oldRating.setText(String.valueOf(Integer.parseInt(oldRating.getText().toString()) - 1));
-                                                                            TextView finalRating = (TextView) ratingsNoContainer.getChildAt(5 - starPosition - 1);
-                                                                            finalRating.setText(String.valueOf(Integer.parseInt(finalRating.getText().toString()) + 1));
-                                                                        } else {
-                                                                            DBquerries.myRatedIds.add(productID);
-                                                                            DBquerries.myRating.add((long) starPosition + 1);
-                                                                            productTotalRatings.setText("(" + ((long) documentSnapshot.get("total_ratings") + 1) + ")ratings");
-                                                                            totalRatings.setText((long) documentSnapshot.get("total_ratings") + 1 + " ratings");
-                                                                            totalRatingsFigure.setText(String.valueOf((long) documentSnapshot.get("total_ratings") + 1));
-
-                                                                            TextView rating = (TextView) ratingsNoContainer.getChildAt(5 - starPosition - 1);
-                                                                            rating.setText(String.valueOf(Integer.parseInt(rating.getText().toString()) + 1));
-
-                                                                            Toast.makeText(ProductDetailsActivity.this, "Thank you for rating!", Toast.LENGTH_SHORT).show();
-                                                                        }
-
-                                                                        for (int x = 0; x < 5; x++) {
-                                                                            TextView ratings = (TextView) ratingsNoContainer.getChildAt(x);
-                                                                            ProgressBar progressBar = (ProgressBar) ratingsProgrssBarContainer.getChildAt(x);
-                                                                            int maxProgress = Integer.parseInt(totalRatingsFigure.getText().toString());
-                                                                            progressBar.setMax(maxProgress);
-                                                                            progressBar.setProgress(Integer.parseInt(ratings.getText().toString()));
-                                                                        }
-                                                                        initialRating = starPosition;
-                                                                        avgRating.setText(calculateAverageRating(0, true));
-                                                                        productAvgRating.setText(calculateAverageRating(0, true));
-
-                                                                        if (DBquerries.wishlist.contains(productID) && DBquerries.wishlistModelList.size() != 0) {
-                                                                            int index = DBquerries.wishlist.indexOf(productID);
-                                                                            DBquerries.wishlistModelList.get(index).setRating(avgRating.getText().toString());
-                                                                            DBquerries.wishlistModelList.get(index).setTotalRatings(Long.parseLong(totalRatingsFigure.getText().toString()));
-                                                                        }
-                                                                    } else {
-                                                                        setRating(initialRating);
-                                                                        String error = task.getException().getMessage();
-                                                                        Toast.makeText(ProductDetailsActivity.this, error, Toast.LENGTH_SHORT).show();
-                                                                    }
-                                                                    running_rating_querry = false;
-                                                                }
-                                                            });
-
-                                                } else {
-                                                    running_rating_querry = false;
-                                                    setRating(initialRating);
-                                                    String error = task.getException().getMessage();
-                                                    Toast.makeText(ProductDetailsActivity.this, error, Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
-
-                            }
-                        }
-                    }
-                }
-
-            });
-        }
+//
+//        for (int x = 0; x < rateNowContainer.getChildCount(); x++) {
+//            final int starPosition = x;
+//            rateNowContainer.getChildAt(x).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    if (currentUser == null) {
+//                        signInDialog.show();
+//                    }
+//                    else {
+//                        if (starPosition != initialRating) {
+//                            if (!running_rating_querry) {
+//                                running_rating_querry = true;
+//
+//                                setRating(starPosition);
+//                                Map<String, Object> updateRating = new HashMap<>();
+//
+//                                if (DBquerries.myRatedIds.contains(productID)) {
+//                                    TextView oldRating = (TextView) ratingsNoContainer.getChildAt(5 - initialRating - 1);
+//                                    TextView finalRating = (TextView) ratingsNoContainer.getChildAt(5 - starPosition - 1);
+//
+//                                    updateRating.put(initialRating + 1 + "_star", Long.parseLong(oldRating.getText().toString()) - 1);
+//                                    updateRating.put(starPosition + 1 + "_star", Long.parseLong(finalRating.getText().toString()) + 1);
+//                                    updateRating.put("average_rating", calculateAverageRating((long) starPosition - initialRating, true));
+//                                } else {
+//                                    updateRating.put(starPosition + 1 + "_star", (long) documentSnapshot.get(starPosition + 1 + "_star") + 1);
+//                                    updateRating.put("average_rating", calculateAverageRating((long) starPosition + 1, false));
+//                                    updateRating.put("total_ratings", (long) documentSnapshot.get("total_ratings") + 1);
+//
+//                                }
+//
+//                                firebaseFirestore.collection("PRODUCTS").document(productID)
+//                                        .update(updateRating)
+//                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                            @Override
+//                                            public void onComplete(@NonNull Task<Void> task) {
+//                                                if (task.isSuccessful()) {
+//                                                    Map<String, Object> myRating = new HashMap<>();
+//
+//                                                    if (DBquerries.myRatedIds.contains(productID)) {
+//                                                        myRating.put("rating_" + DBquerries.myRatedIds.indexOf(productID), (long) starPosition + 1);
+//                                                    } else {
+//                                                        myRating.put("product_ID_" + DBquerries.myRatedIds.size(), productID);
+//                                                        myRating.put("rating_" + DBquerries.myRatedIds.size(), (long) starPosition + 1);
+//                                                        myRating.put("list_size", (long) DBquerries.myRatedIds.size() + 1);
+//                                                    }
+//
+//                                                    firebaseFirestore.collection("USERS").document(currentUser.getUid()).collection("USER_DATA").document("MY_RATINGS")
+//                                                            .update(myRating)
+//                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                                                @Override
+//                                                                public void onComplete(@NonNull Task<Void> task) {
+//                                                                    if (task.isSuccessful()) {
+//                                                                        if (DBquerries.myRatedIds.contains(productID)) {
+//                                                                            DBquerries.myRating.set(DBquerries.myRatedIds.indexOf(productID), (long) starPosition + 1);
+//
+//                                                                            TextView oldRating = (TextView) ratingsNoContainer.getChildAt(5 - initialRating - 1);
+//                                                                            oldRating.setText(String.valueOf(Integer.parseInt(oldRating.getText().toString()) - 1));
+//                                                                            TextView finalRating = (TextView) ratingsNoContainer.getChildAt(5 - starPosition - 1);
+//                                                                            finalRating.setText(String.valueOf(Integer.parseInt(finalRating.getText().toString()) + 1));
+//                                                                        } else {
+//                                                                            DBquerries.myRatedIds.add(productID);
+//                                                                            DBquerries.myRating.add((long) starPosition + 1);
+//                                                                            productTotalRatings.setText("(" + ((long) documentSnapshot.get("total_ratings") + 1) + ")ratings");
+//                                                                            totalRatings.setText((long) documentSnapshot.get("total_ratings") + 1 + " ratings");
+//                                                                            totalRatingsFigure.setText(String.valueOf((long) documentSnapshot.get("total_ratings") + 1));
+//
+//                                                                            TextView rating = (TextView) ratingsNoContainer.getChildAt(5 - starPosition - 1);
+//                                                                            rating.setText(String.valueOf(Integer.parseInt(rating.getText().toString()) + 1));
+//
+//                                                                            Toast.makeText(ProductDetailsActivity.this, "Thank you for rating!", Toast.LENGTH_SHORT).show();
+//                                                                        }
+//
+//                                                                        for (int x = 0; x < 5; x++) {
+//                                                                            TextView ratings = (TextView) ratingsNoContainer.getChildAt(x);
+//                                                                            ProgressBar progressBar = (ProgressBar) ratingsProgrssBarContainer.getChildAt(x);
+//                                                                            int maxProgress = Integer.parseInt(totalRatingsFigure.getText().toString());
+//                                                                            progressBar.setMax(maxProgress);
+//                                                                            progressBar.setProgress(Integer.parseInt(ratings.getText().toString()));
+//                                                                        }
+//                                                                        initialRating = starPosition;
+//                                                                        avgRating.setText(calculateAverageRating(0, true));
+//                                                                        productAvgRating.setText(calculateAverageRating(0, true));
+//
+//                                                                        if (DBquerries.wishlist.contains(productID) && DBquerries.wishlistModelList.size() != 0) {
+//                                                                            int index = DBquerries.wishlist.indexOf(productID);
+//                                                                            DBquerries.wishlistModelList.get(index).setRating(avgRating.getText().toString());
+//                                                                            DBquerries.wishlistModelList.get(index).setTotalRatings(Long.parseLong(totalRatingsFigure.getText().toString()));
+//                                                                        }
+//                                                                    } else {
+//                                                                        setRating(initialRating);
+//                                                                        String error = task.getException().getMessage();
+//                                                                        Toast.makeText(ProductDetailsActivity.this, error, Toast.LENGTH_SHORT).show();
+//                                                                    }
+//                                                                    running_rating_querry = false;
+//                                                                }
+//                                                            });
+//
+//                                                } else {
+//                                                    running_rating_querry = false;
+//                                                    setRating(initialRating);
+//                                                    String error = task.getException().getMessage();
+//                                                    Toast.makeText(ProductDetailsActivity.this, error, Toast.LENGTH_SHORT).show();
+//                                                }
+//                                            }
+//                                        });
+//
+//                            }
+//                        }
+//                    }
+//                }
+//
+//            });
+//        }
 //////rating layout
 
         buyNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (currentUser == null) {
-                    signInDialog.show();
-                }
-                else {
-                    DeliveryActivity.fromCart=false;
-                    loadingDialog.show();
-                    productDetailsActivity=ProductDetailsActivity.this;
-                    DeliveryActivity.cartItemModelList=new ArrayList<>();
-                    DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM
-                            , productID
-                            , documentSnapshot.get("product_image_1").toString()
-                            , (long) documentSnapshot.get("free_coupans")
-                            , (long) 1
-                            ,(long)documentSnapshot.get("offers_applied")
-                            , (long) 0
-                            , documentSnapshot.get("product_title").toString()
-                            , documentSnapshot.get("product_price").toString()
-                            , documentSnapshot.get("cutted_price").toString()
-                            ,inStock
-                            ,(long)documentSnapshot.get("max-quantity")
-                            ,(long)documentSnapshot.get("stock_quantity")
-                            ,(boolean)documentSnapshot.get("COD")
-                    ));
-                    DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
-
-                    if(DBquerries.addressesModelList.size() == 0) {
-                        DBquerries.loadAddresses(ProductDetailsActivity.this, loadingDialog,true);
-                    }else {
-                        loadingDialog.dismiss();
-                        startActivity(new Intent(ProductDetailsActivity.this, DeliveryActivity.class));
-                    }
-
-                }
+//                if (currentUser == null) {
+//                    signInDialog.show();
+//                }
+//                else {
+//                    DeliveryActivity.fromCart=false;
+//                    loadingDialog.show();
+//                    productDetailsActivity=ProductDetailsActivity.this;
+//                    DeliveryActivity.cartItemModelList=new ArrayList<>();
+//                    DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM
+//                            , productID
+//                            , documentSnapshot.get("product_image_1").toString()
+//                            , (long) documentSnapshot.get("free_coupans")
+//                            , (long) 1
+//                            ,(long)documentSnapshot.get("offers_applied")
+//                            , (long) 0
+//                            , documentSnapshot.get("product_title").toString()
+//                            , documentSnapshot.get("product_price").toString()
+//                            , documentSnapshot.get("cutted_price").toString()
+//                            ,inStock
+//                            ,(long)documentSnapshot.get("max-quantity")
+//                            ,(long)documentSnapshot.get("stock_quantity")
+//                            ,(boolean)documentSnapshot.get("COD")
+//                    ));
+//                    DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
+//
+//                    if(DBquerries.addressesModelList.size() == 0) {
+//                        DBquerries.loadAddresses(ProductDetailsActivity.this, loadingDialog,true);
+//                    }else {
+//                        loadingDialog.dismiss();
+//                        startActivity(new Intent(ProductDetailsActivity.this, DeliveryActivity.class));
+//                    }
+//
+//                }
             }
         });
 
@@ -645,36 +646,36 @@ public class ProductDetailsActivity extends AppCompatActivity {
         });
 
 /////// sign in dialog box
-        signInDialog = new Dialog(ProductDetailsActivity.this);
-        signInDialog.setContentView(R.layout.sign_in_dialog);
-        signInDialog.setCancelable(true);
+//        signInDialog = new Dialog(ProductDetailsActivity.this);
+//        signInDialog.setContentView(R.layout.sign_in_dialog);
+//        signInDialog.setCancelable(true);
+//
+//        signInDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//
+//        Button signInDialogBtn = signInDialog.findViewById(R.id.sign_in_btn);
+//        Button signUpDialogBtn = signInDialog.findViewById(R.id.sign_up_btn);
 
-        signInDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        Button signInDialogBtn = signInDialog.findViewById(R.id.sign_in_btn);
-        Button signUpDialogBtn = signInDialog.findViewById(R.id.sign_up_btn);
-
-        signInDialogBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SigninFragment.disableCloseBtn = true;
-                SignupFragment.disableCloseBtn = true;
-                signInDialog.dismiss();
-                setsignUpFragment = false;
-                startActivity(new Intent(ProductDetailsActivity.this, RegisterActivity.class));
-            }
-        });
-
-        signUpDialogBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SigninFragment.disableCloseBtn = true;
-                SignupFragment.disableCloseBtn = true;
-                signInDialog.dismiss();
-                setsignUpFragment = true;
-                startActivity(new Intent(ProductDetailsActivity.this, RegisterActivity.class));
-            }
-        });
+//        signInDialogBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                SigninFragment.disableCloseBtn = true;
+//                SignupFragment.disableCloseBtn = true;
+//                signInDialog.dismiss();
+//                setsignUpFragment = false;
+//                startActivity(new Intent(ProductDetailsActivity.this, RegisterActivity.class));
+//            }
+//        });
+//
+//        signUpDialogBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                SigninFragment.disableCloseBtn = true;
+//                SignupFragment.disableCloseBtn = true;
+//                signInDialog.dismiss();
+//                setsignUpFragment = true;
+//                startActivity(new Intent(ProductDetailsActivity.this, RegisterActivity.class));
+//            }
+//        });
 
 /////// sign in dialog box
 
@@ -689,25 +690,25 @@ public class ProductDetailsActivity extends AppCompatActivity {
         } else {
             coupanRedemLayout.setVisibility(View.VISIBLE);
         }
-        if (currentUser != null) {
-            if (DBquerries.myRating.size() == 0) {
-                DBquerries.loadRatingList(ProductDetailsActivity.this);
-            }
-
-            if (DBquerries.wishlist.size() == 0) {
-                DBquerries.loadWishlist(ProductDetailsActivity.this, loadingDialog, false);
-            }
-
-            if (DBquerries.rewardModelList.size() == 0) {
-                DBquerries.loadRewards(ProductDetailsActivity.this, loadingDialog,false);
-            }
-            if (DBquerries.cartList.size() != 0 && DBquerries.wishlist.size() != 0  &&  DBquerries.rewardModelList.size() != 0){
-                loadingDialog.dismiss();
-            }
-
-        } else {
-            loadingDialog.dismiss();
-        }
+//        if (currentUser != null) {
+//            if (DBquerries.myRating.size() == 0) {
+//                DBquerries.loadRatingList(ProductDetailsActivity.this);
+//            }
+//
+//            if (DBquerries.wishlist.size() == 0) {
+//                DBquerries.loadWishlist(ProductDetailsActivity.this, loadingDialog, false);
+//            }
+//
+//            if (DBquerries.rewardModelList.size() == 0) {
+//                DBquerries.loadRewards(ProductDetailsActivity.this, loadingDialog,false);
+//            }
+//            if (DBquerries.cartList.size() != 0 && DBquerries.wishlist.size() != 0  &&  DBquerries.rewardModelList.size() != 0){
+//                loadingDialog.dismiss();
+//            }
+//
+//        } else {
+//            loadingDialog.dismiss();
+//        }
 
         if (DBquerries.myRatedIds.contains(productID)) {
             int index = DBquerries.myRatedIds.indexOf(productID);
@@ -780,7 +781,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         badgeCount=cartItem.getActionView().findViewById(R.id.badge_count);
         if(currentUser!=null){
             if(DBquerries.cartList.size() == 0){
-                DBquerries.loadCartList(ProductDetailsActivity.this,loadingDialog,false,badgeCount,new TextView(ProductDetailsActivity.this));
+               // DBquerries.loadCartList(ProductDetailsActivity.this,loadingDialog,false,badgeCount,new TextView(ProductDetailsActivity.this));
             }else {
                 badgeCount.setVisibility(View.VISIBLE);
                 if(DBquerries.cartList.size()<99) {
@@ -815,7 +816,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
             if(fromSearch) {
                 finish();
             }else {
-                startActivity(new Intent(this,SearchActivity.class));
+               // startActivity(new Intent(this,SearchActivity.class));
             }
             return true;
         } else if (id == android.R.id.home) {

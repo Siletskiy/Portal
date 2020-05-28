@@ -20,7 +20,7 @@ public class ViewAllActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private GridView gridView;
     public static List<HorizontalProductScrollModel> horizontalProductScrollModelList;
-    public static List<WishlistModel> wishlistModelList;
+    //public static List<WishlistModel> wishlistModelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +42,13 @@ public class ViewAllActivity extends AppCompatActivity {
 
             recyclerView.setVisibility(View.VISIBLE);
 
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-            linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
-            recyclerView.setLayoutManager(linearLayoutManager);
+//            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+//            linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+//            recyclerView.setLayoutManager(linearLayoutManager);
 
-            WishlistAdapter wishlistAdapter = new WishlistAdapter(wishlistModelList, false);
-            wishlistAdapter.notifyDataSetChanged();
-            recyclerView.setAdapter(wishlistAdapter);
+//            WishlistAdapter wishlistAdapter = new WishlistAdapter(wishlistModelList, false);
+//            wishlistAdapter.notifyDataSetChanged();
+            //recyclerView.setAdapter(wishlistAdapter);
 
         }else if(layout==1) {
 

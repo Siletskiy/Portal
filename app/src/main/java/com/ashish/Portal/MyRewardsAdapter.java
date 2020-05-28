@@ -21,7 +21,7 @@ import java.util.List;
 public class MyRewardsAdapter extends RecyclerView.Adapter<MyRewardsAdapter.Viewholder> {
 
     private List<RewardModel> rewardModelList;
-    private List<CartItemModel> cartItemModelList;
+//    private List<CartItemModel> cartItemModelList;
     private Boolean useMinilayout=false;
     private RecyclerView coupanRecyclerview;
     private LinearLayout selectedCoupan;
@@ -31,19 +31,19 @@ public class MyRewardsAdapter extends RecyclerView.Adapter<MyRewardsAdapter.View
     private TextView selectedcoupanBody,discountedPrice;
     private int position=-1;
 
-    public MyRewardsAdapter(int position,List<RewardModel> rewardModelList, Boolean useMinilayout, RecyclerView coupanRecyclerview, LinearLayout selectedCoupan, Long productOriginalPrice, TextView coupanTitle, TextView coupanExpiryDate, TextView coupanBody,TextView discountedPrice,List<CartItemModel> cartItemModelList) {
-        this.position=position;
-        this.rewardModelList = rewardModelList;
-        this.useMinilayout = useMinilayout;
-        this.coupanRecyclerview = coupanRecyclerview;
-        this.selectedCoupan = selectedCoupan;
-        this.productOriginalPrice = productOriginalPrice;
-        this.selectedcoupanTitle = coupanTitle;
-        this.selectedcoupanExpiryDate = coupanExpiryDate;
-        this.selectedcoupanBody = coupanBody;
-        this.discountedPrice=discountedPrice;
-        this.cartItemModelList=cartItemModelList;
-    }
+//    public MyRewardsAdapter(int position,List<RewardModel> rewardModelList, Boolean useMinilayout, RecyclerView coupanRecyclerview, LinearLayout selectedCoupan, Long productOriginalPrice, TextView coupanTitle, TextView coupanExpiryDate, TextView coupanBody,TextView discountedPrice,List<CartItemModel> cartItemModelList) {
+//        this.position=position;
+//        this.rewardModelList = rewardModelList;
+//        this.useMinilayout = useMinilayout;
+//        this.coupanRecyclerview = coupanRecyclerview;
+//        this.selectedCoupan = selectedCoupan;
+//        this.productOriginalPrice = productOriginalPrice;
+//        this.selectedcoupanTitle = coupanTitle;
+//        this.selectedcoupanExpiryDate = coupanExpiryDate;
+//        this.selectedcoupanBody = coupanBody;
+//        this.discountedPrice=discountedPrice;
+//       // this.cartItemModelList=cartItemModelList;
+//    }
 
     public MyRewardsAdapter(List<RewardModel> rewardModelList, Boolean useMinilayout, RecyclerView coupanRecyclerview, LinearLayout selectedCoupan, Long productOriginalPrice, TextView coupanTitle, TextView coupanExpiryDate, TextView coupanBody,TextView discountedPrice) {
         this.rewardModelList = rewardModelList;
@@ -150,11 +150,11 @@ public class MyRewardsAdapter extends RecyclerView.Adapter<MyRewardsAdapter.View
 
                                 }
                                 if(position != -1) {
-                                    cartItemModelList.get(position).setSelectedCoupanId(coupanId);
+                                   // cartItemModelList.get(position).setSelectedCoupanId(coupanId);
                                 }
                             } else {
                                 if(position != -1) {
-                                    cartItemModelList.get(position).setSelectedCoupanId(null);
+                                   // cartItemModelList.get(position).setSelectedCoupanId(null);
                                 }
                                 Toast.makeText(itemView.getContext(), "Product doesn't matches Coupan terms.", Toast.LENGTH_SHORT).show();
                             }

@@ -151,16 +151,16 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
                 deleteBtn.setVisibility(View.GONE);
             }
 
-            deleteBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(!ProductDetailsActivity.running_wishlist_querry) {
-                        ProductDetailsActivity.running_wishlist_querry = true;
-                        DBquerries.removeFromWishlist(index, itemView.getContext());
-                        Toast.makeText(itemView.getContext(),"Deleted Successfully!",Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+//            deleteBtn.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    if(!ProductDetailsActivity.running_wishlist_querry) {
+//                        ProductDetailsActivity.running_wishlist_querry = true;
+//                        DBquerries.removeFromWishlist(index, itemView.getContext());
+//                        Toast.makeText(itemView.getContext(),"Deleted Successfully!",Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            });
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

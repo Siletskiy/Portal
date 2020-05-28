@@ -112,7 +112,7 @@ public class CategoryActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id==R.id.main_search_icon){
-            startActivity(new Intent(CategoryActivity.this,SearchActivity.class));
+            //startActivity(new Intent(CategoryActivity.this,SearchActivity.class));
             return true;
         }else if(id == android.R.id.home){
             finish();
