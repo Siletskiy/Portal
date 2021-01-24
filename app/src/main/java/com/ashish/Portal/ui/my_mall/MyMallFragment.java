@@ -188,7 +188,7 @@ public class MyMallFragment extends Fragment {
 //        categoryModelList.clear();
 //        lists.clear();
 //        loadedCategoriesNames.clear();
-        DBquerries.clearData();
+//        DBquerries.clearData();
         if(networkInfo != null && networkInfo.isConnected()==true){
             MainActivity.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             noInternet.setVisibility(View.GONE);
